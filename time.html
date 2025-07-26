@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Commute Planner - Kottakkal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .search-box {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: var(--primary);
+        }
+        
+        .route-options {
+            padding: 0 20px 20px;
+        }
+        
+        .route-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .route-time {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .route-cost {
+            background: #e9f7ef;
+            color: #28a745;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .route-steps {
+            margin-top: 10px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .step-icon {
+            width: 30px;
+            height: 30px;
+            background: #f0f4ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .step-details {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 500;
+        }
+        
+        .step-meta {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .crowding-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .crowding-low {
+            background: #28a745;
+        }
+        
+        .crowding-medium {
+            background: #ffc107;
+        }
+        
+        .crowding-high {
+            background: #dc3545;
+        }
+        
+        .preference-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .pref-btn {
+            flex: 1;
+            padding: 8px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .pref-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 10px;
+            }
+            
+            header {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-route"></i> Smart Commute Planner</h1>
+            <p>Kottakkal Public Transport</p>
+        </header>
+        
+        <div class="search-box">
+            <div class="input-group">
+                <label for="from">From:</label>
+                <input type="text" id="from" placeholder="Current location" value="Kottakkal Bus Stand">
+            </div>
+            
+            <div class="input-group">
+                <label for="to">To:</label>
+                <input type="text" id="to" placeholder="Destination" value="Malappuram KSRTC Station">
+            </div>
+            
+            <div class="preference-buttons">
+                <div class="pref-btn active" data-pref="fastest">
+                    <i class="fas fa-bolt"></i> Fastest
+                </div>
+                <div class="pref-btn" data-pref="cheapest">
+                    <i class="fas fa-rupee-sign"></i> Cheapest
+                </div>
+                <div class="pref-btn" data-pref="comfort">
+                    <i class="fas fa-couch"></i> Comfort
+                </div>
+            </div>
+            
+            <button id="search-btn">
+                <i class="fas fa-search"></i> Find Routes
+            </button>
+        </div>
+        
+        <div class="route-options" id="route-results">
+            <!-- Routes will appear here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample route data (simulated AI output)
+        const routeData = [
+            {
+                id: 1,
+                time: 42,
+                cost: 35,
+                crowding: "medium",
+                steps: [
+                    {
+                        type: "bus",
+                        icon: "🚌",
+                        title: "Bus 47B to Malappuram",
+                        details: "Departs in 8 mins (8:15 AM)",
+                        meta: "15 stops (32 mins)"
+                    },
+                    {
+                        type: "walk",
+                        icon: "🚶",
+                        title: "Walk to destination",
+                        details: "7 minutes (500m)",
+                        meta: "Via Main Road"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                time: 35,
+                cost: 60,
+                crowding: "low",
+                steps: [
+                    {
+                        type: "auto",
+                        icon: "🛺",
+                        title: "Auto to Kottakkal",
+                        details: "Approx fare: ₹40",
+                        meta: "8 mins (shared)"
+                    },
+                    {
+                        type: "metro",
+                        icon: "🚇",
+                        title: "Kottakal to Malappuram",
+                        details: "Every 10 mins",
+                        meta: "12 mins travel"
+                    },
+                    {
+                        type: "walk",
+                        icon: "🚶",
+                        title: "Short walk",
+                        details: "3 minutes (200m)",
+                        meta: "Covered pathway"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                time: 25,
+                cost: 120,
+                crowding: "low",
+                steps: [
+                    {
+                        type: "auto",
+                        icon: "🛺",
+                        title: "Direct auto",
+                        details: "Approx fare: ₹110-130",
+                        meta: "25 mins (private)"
+                    }
+                ]
+            }
+        ];
+
+        // DOM elements
+        const searchBtn = document.getElementById('search-btn');
+        const routeResults = document.getElementById('route-results');
+        const prefButtons = document.querySelectorAll('.pref-btn');
+
+        // Set active preference
+        prefButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                prefButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                updateRoutes(this.dataset.pref);
+            });
+        });
+
+        // Search button click
+        searchBtn.addEventListener('click', function() {
+            const from = document.getElementById('from').value;
+            const to = document.getElementById('to').value;
+            
+            if (!from || !to) {
+                alert("Please enter both locations");
+                return;
+            }
+            
+            // Show loading state
+            routeResults.innerHTML = '<p style="text-align: center; padding: 20px;">Finding best routes...</p>';
+            
+            // Simulate AI processing delay
+            setTimeout(() => {
+                const activePref = document.querySelector('.pref-btn.active').dataset.pref;
+                updateRoutes(activePref);
+            }, 800);
+        });
+
+        // Update routes based on preference
+        function updateRoutes(preference) {
+            let sortedRoutes = [...routeData];
+            
+            // Simulate AI sorting based on preference
+            switch(preference) {
+                case "fastest":
+                    sortedRoutes.sort((a, b) => a.time - b.time);
+                    break;
+                case "cheapest":
+                    sortedRoutes.sort((a, b) => a.cost - b.cost);
+                    break;
+                case "comfort":
+                    sortedRoutes.sort((a, b) => {
+                        // Prefer routes with less crowding and fewer transfers
+                        const aScore = (a.crowding === "low" ? 2 : 1) + (a.steps.length === 1 ? 1 : 0);
+                        const bScore = (b.crowding === "low" ? 2 : 1) + (b.steps.length === 1 ? 1 : 0);
+                        return bScore - aScore;
+                    });
+                    break;
+            }
+            
+            displayRoutes(sortedRoutes);
+        }
+
+        // Display routes
+        function displayRoutes(routes) {
+            routeResults.innerHTML = '';
+            
+            if (routes.length === 0) {
+                routeResults.innerHTML = '<p style="text-align: center; padding: 20px;">No routes found. Try different locations.</p>';
+                return;
+            }
+            
+            routes.forEach(route => {
+                const crowdingClass = route.crowding === "high" ? "crowding-high" : 
+                                     route.crowding === "medium" ? "crowding-medium" : "crowding-low";
+                
+                const routeEl = document.createElement('div');
+                routeEl.className = 'route-card';
+                routeEl.innerHTML = `
+                    <div class="route-header">
+                        <span class="route-time">${route.time} mins</span>
+                        <span class="route-cost">₹${route.cost}</span>
+                    </div>
+                    <div class="route-steps">
+                        ${route.steps.map(step => `
+                            <div class="step">
+                                <div class="step-icon">${step.icon}</div>
+                                <div class="step-details">
+                                    <div class="step-title">${step.title}</div>
+                                    <div class="step-meta">${step.details} • ${step.meta}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.8rem;">
+                        <span class="crowding-indicator ${crowdingClass}"></span>
+                        ${route.crowding === "high" ? "High crowding expected" : 
+                          route.crowding === "medium" ? "Moderate crowding" : "Low crowding"}
+                    </div>
+                `;
+                
+                routeResults.appendChild(routeEl);
+            });
+        }
+
+        // Initial load
+        updateRoutes('fastest');
+    </script>
+</body>
+</html>

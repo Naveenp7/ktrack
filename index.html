@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="login-container" class="login-container">
+        <div class="login-box">
+            <h1>Traffic Monitor</h1>
+            <div id="login-form">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="auth-buttons">
+                    <button id="login-btn">Login</button>
+                    <button id="signup-btn">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Main Container -->
+    <div id="main-container" class="container" style="display: none;">
+        <div id="traffic-overlay">
+            <div id="location-buttons">
+                <button class="location-btn" data-location="Kottakkal Puthur Chanda">Kottakkal Puthur</button>
+                <button class="location-btn" data-location="Arya Vaidya Shala">Arya Vaidya Shala</button>
+                <button class="location-btn" data-location="Aster MIMS Hospital">Aster MIMS</button>
+                <button class="location-btn" data-location="Almas Hospital">Almas Hospital</button>
+                <button class="location-btn" data-location="Govt. Rajas Higher Secondary School">Rajas School</button>
+            </div>
+            <div id="traffic-summary">
+                <h3>Traffic Summary</h3>
+                <div id="summary-content">
+                    <p>Click on a location button to see traffic details</p>
+                </div>
+                <button id="close-summary">Close</button>
+            </div>
+        </div>
+
+        <div id="map-container">
+            <div id="map"></div>
+        </div>
+
+        <div class="traffic-monitor">
+            <div class="user-info">
+                <span id="user-display-name">Welcome, naveensanthosh830</span>
+                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                <a id="admin-panel-link" href="admin-panel.html" style="display: none;"><i class="fas fa-traffic-light"></i> Traffic Signal Admin</a>
+            </div>
+            <h2>Traffic Monitor</h2>
+            <div class="report-buttons">
+                <button id="report-pothole" class="report-btn">Report Pothole</button>
+                <button id="report-accident" class="report-btn">Report Accident</button>
+                <button id="report-ambulance" class="report-btn">Report Ambulance</button>
+                <button id="report-municipality" class="report-btn">Report to Municipality</button>
+                <button id="bus-services" class="report-btn">Smart Commute Planner <i class="fas fa-bus"></i></button>
+                <a href="citizens-wall.html" class="report-btn">Citizens Wall <i class="fas fa-award"></i></a>
+            </div>
+            <div class="leaderboard-section">
+                <h2>Top Reporters</h2>
+                <div id="leaderboard-list" class="leaderboard-list">
+                    <!-- Leaderboard entries will be loaded here -->
+                    <p>Loading leaderboard...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="report-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Report Incident</h2>
+            <form id="report-form">
+                <div class="form-group">
+                    <label for="incident-image">Upload Image:</label>
+                    <input type="file" id="incident-image" accept="image/*">
+                    <div id="image-preview"></div>
+                </div>
+                <div class="form-group">
+                    <label for="incident-description">Description:</label>
+                    <textarea id="incident-description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <p>Click on the map to select the incident location</p>
+                    <div id="location-display">No location selected</div>
+                </div>
+                <button type="submit" id="submit-report">Submit Report</button>
+            </form>
+        </div>
+    </div>
+
+<div id="problem-type-container" style="display: none;">
+    <label for="problem-type">Problem Type:</label>
+    <select id="problem-type" required>
+        <option value="">Select problem type</option>
+        <option value="road_damage">Road Damage</option>
+        <option value="drainage">Drainage Issue</option>
+        <option value="garbage">Garbage Collection</option>
+        <option value="street_light">Street Light Problem</option>
+        <option value="tree_maintenance">Tree Maintenance</option>
+        <option value="other">Other</option>
+    </select>
+</div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+
+    
+    <!-- Google Maps API - Replace YOUR_API_KEY with your actual API key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9K8ahYscXsc5pZZqA9P534ujVneB-RI8&callback=initMap" defer></script>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+    
+    <!-- Admin Utility Script (remove in production) -->
+    <script src="set-admin.js"></script>
+    
+    <!-- Include admin.js for traffic light control -->
+    <script src="admin.js"></script>
+    
+    <!-- Fix for 404 error with /@vite/client -->
+    <script>
+        // Prevent 404 errors for /@vite/client
+        window.addEventListener('error', function(event) {
+            if (event.target && event.target.src && event.target.src.includes('/@vite/client')) {
+                event.preventDefault();
+                console.log('Prevented 404 error for /@vite/client');
+            }
+        }, true);
+    </script>
+</body>
+</html>

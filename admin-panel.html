@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Signal Simulator - Admin Panel</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login container removed to directly show admin interface -->
+    <div id="admin-container" class="container">
+        <header class="admin-header">
+            <h1>Traffic Signal Simulator</h1>
+            <div class="user-info">
+                <span id="user-display-name">Welcome</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="junction-simulator">
+                <h2>Junction Simulator</h2>
+                <div class="junction-container">
+                    <div class="junction">
+                        <div class="road north">
+                            <div class="signal-container">
+                                <div class="signal">
+                                    <div class="light red" id="north-red"></div>
+                                    <div class="light yellow" id="north-yellow"></div>
+                                    <div class="light green" id="north-green"></div>
+                                </div>
+                                <div class="timer" id="north-timer">0</div>
+                                <div class="congestion-level">
+                                    <span>Congestion:</span>
+                                    <span id="north-congestion">Low</span>
+                                </div>
+                            </div>
+                            <div class="road-label">North</div>
+                        </div>
+                        <div class="road east">
+                            <div class="signal-container">
+                                <div class="signal">
+                                    <div class="light red" id="east-red"></div>
+                                    <div class="light yellow" id="east-yellow"></div>
+                                    <div class="light green" id="east-green"></div>
+                                </div>
+                                <div class="timer" id="east-timer">0</div>
+                                <div class="congestion-level">
+                                    <span>Congestion:</span>
+                                    <span id="east-congestion">Low</span>
+                                </div>
+                            </div>
+                            <div class="road-label">East</div>
+                        </div>
+                        <div class="road south">
+                            <div class="signal-container">
+                                <div class="signal">
+                                    <div class="light red" id="south-red"></div>
+                                    <div class="light yellow" id="south-yellow"></div>
+                                    <div class="light green" id="south-green"></div>
+                                </div>
+                                <div class="timer" id="south-timer">0</div>
+                                <div class="congestion-level">
+                                    <span>Congestion:</span>
+                                    <span id="south-congestion">Low</span>
+                                </div>
+                            </div>
+                            <div class="road-label">South</div>
+                        </div>
+                        <div class="road west">
+                            <div class="signal-container">
+                                <div class="signal">
+                                    <div class="light red" id="west-red"></div>
+                                    <div class="light yellow" id="west-yellow"></div>
+                                    <div class="light green" id="west-green"></div>
+                                </div>
+                                <div class="timer" id="west-timer">0</div>
+                                <div class="congestion-level">
+                                    <span>Congestion:</span>
+                                    <span id="west-congestion">Low</span>
+                                </div>
+                            </div>
+                            <div class="road-label">West</div>
+                        </div>
+                        <div class="junction-center"></div>
+                    </div>
+                </div>
+                <div class="junction-info">
+                    <div class="current-status">
+                        <h3>Current Status</h3>
+                        <p>Green Signal: <span id="current-green">North</span></p>
+                        <p>Time Remaining: <span id="time-remaining">30</span> seconds</p>
+                        <p>Next Direction: <span id="next-direction">East</span></p>
+                    </div>
+                    <div class="manual-controls">
+                        <h3>Manual Override</h3>
+                        <div class="direction-buttons">
+                            <button id="north-btn" class="direction-btn">North</button>
+                            <button id="east-btn" class="direction-btn">East</button>
+                            <button id="south-btn" class="direction-btn">South</button>
+                            <button id="west-btn" class="direction-btn">West</button>
+                        </div>
+                        <div class="override-controls">
+                            <button id="emergency-btn" class="emergency-btn">Emergency Override</button>
+                            <button id="reset-btn" class="reset-btn">Reset to Auto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notification-panel">
+                <h2>Live Reports</h2>
+                <div id="reports-list"></div>
+            </div>
+            <div class="congestion-panel">
+                <h2>Congestion Control Panel</h2>
+                <div class="congestion-controls">
+                    <div class="direction-control">
+                        <h3>North</h3>
+                        <div class="congestion-slider-container">
+                            <input type="range" min="0" max="10" value="2" class="congestion-slider" id="north-slider">
+                            <span class="congestion-value" id="north-value">2</span>
+                        </div>
+                        <p>Incidents: <span id="north-incidents">0</span></p>
+                    </div>
+                    <div class="direction-control">
+                        <h3>East</h3>
+                        <div class="congestion-slider-container">
+                            <input type="range" min="0" max="10" value="2" class="congestion-slider" id="east-slider">
+                            <span class="congestion-value" id="east-value">2</span>
+                        </div>
+                        <p>Incidents: <span id="east-incidents">0</span></p>
+                    </div>
+                    <div class="direction-control">
+                        <h3>South</h3>
+                        <div class="congestion-slider-container">
+                            <input type="range" min="0" max="10" value="2" class="congestion-slider" id="south-slider">
+                            <span class="congestion-value" id="south-value">2</span>
+                        </div>
+                        <p>Incidents: <span id="south-incidents">0</span></p>
+                    </div>
+                    <div class="direction-control">
+                        <h3>West</h3>
+                        <div class="congestion-slider-container">
+                            <input type="range" min="0" max="10" value="2" class="congestion-slider" id="west-slider">
+                            <span class="congestion-value" id="west-value">2</span>
+                        </div>
+                        <p>Incidents: <span id="west-incidents">0</span></p>
+                    </div>
+                </div>
+                <div class="timing-settings">
+                    <h3>Timing Settings</h3>
+                    <div class="form-group">
+                        <label for="base-time">Base Green Time (seconds):</label>
+                        <input type="number" id="base-time" min="10" max="60" value="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="congestion-weight">Congestion Weight (seconds):</label>
+                        <input type="number" id="congestion-weight" min="1" max="10" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="yellow-time">Yellow Light Duration (seconds):</label>
+                        <input type="number" id="yellow-time" min="1" max="10" value="3">
+                    </div>
+                    <button id="apply-settings" class="apply-btn">Apply Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+    
+    <!-- Fix for 404 error with /@vite/client -->
+    <script>
+        // Prevent 404 errors for /@vite/client
+        window.addEventListener('error', function(event) {
+            if (event.target && event.target.src && event.target.src.includes('/@vite/client')) {
+                event.preventDefault();
+                console.log('Prevented 404 error for /@vite/client');
+            }
+        }, true);
+    </script>
+    
+    <!-- Google Maps API - Replace YOUR_API_KEY with your actual API key -->
+
+    <!-- Admin JS - This should be the only script for admin functionality -->
+    <script src="admin.js"></script>
+</body>
+</html>

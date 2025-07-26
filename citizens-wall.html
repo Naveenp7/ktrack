@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizens Wall - Traffic Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles specific to Citizens Wall */
+        .citizens-wall-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+        
+        .wall-header {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #333;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .option-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .option-button:hover {
+            background-color: #0069d9;
+        }
+        
+        .incident-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .incident-card p {
+            margin: 5px 0;
+        }
+        
+        .back-button {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+        
+        .section-title {
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .wall-of-fame-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .wall-of-fame-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="citizens-wall-container">
+        <div class="wall-header">
+            <h1>Citizens Wall</h1>
+        </div>
+        
+        <!-- Main Options -->
+        <div id="main-options">
+            <button class="option-button" id="pothole-btn">Pothole</button>
+            <button class="option-button" id="waste-deposit-btn">Waste Deposit</button>
+            <button class="option-button" id="wall-of-fame-btn">Wall of Fame</button>
+        </div>
+        
+        <!-- Pothole Section -->
+        <div id="pothole-section" style="display: none;">
+            <h2 class="section-title">Potholes</h2>
+            <div id="pothole-list">
+                <!-- Pothole incidents will be loaded here -->
+                <div class="incident-card">
+                    <p><strong>Location:</strong> <span>Loading...</span></p>
+                    <p><strong>Date:</strong> <span>Loading...</span></p>
+                    <p><strong>Status:</strong> <span>Loading...</span></p>
+                </div>
+            </div>
+            <button class="back-button" id="pothole-back-btn">Back</button>
+        </div>
+        
+        <!-- Waste Deposit Section -->
+        <div id="waste-deposit-section" style="display: none;">
+            <h2 class="section-title">Waste Deposit</h2>
+            <div id="waste-deposit-list">
+                <!-- Waste deposit incidents will be loaded here -->
+                <div class="incident-card">
+                    <p><strong>Location:</strong> <span>Loading...</span></p>
+                    <p><strong>Date:</strong> <span>Loading...</span></p>
+                    <p><strong>Status:</strong> <span>Loading...</span></p>
+                </div>
+            </div>
+            <button class="back-button" id="waste-deposit-back-btn">Back</button>
+        </div>
+        
+        <!-- Wall of Fame Section -->
+        <div id="wall-of-fame-section" style="display: none;">
+            <h2 class="section-title">Wall of Fame</h2>
+            <div id="wall-of-fame-list">
+                <!-- Wall of fame entries will be loaded here -->
+                <div class="wall-of-fame-item">
+                    <img src="https://via.placeholder.com/100" alt="Fixed Pothole">
+                    <div>
+                        <p><strong>Fixed Pothole</strong></p>
+                    </div>
+                </div>
+                <div class="wall-of-fame-item">
+                    <img src="https://via.placeholder.com/100" alt="Cleared Waste">
+                    <div>
+                        <p><strong>Cleared Waste</strong></p>
+                    </div>
+                </div>
+            </div>
+            <button class="back-button" id="wall-of-fame-back-btn">Back</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+    
+    <!-- Citizens Wall JavaScript -->
+    <script src="citizens-wall.js"></script>
+</body>
+</html>
